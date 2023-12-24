@@ -1,12 +1,9 @@
 # TODO
 
-### I want the app to have
-- [ ] a search 
-
-### I want the user to be able:
+### As a user I want the user to be able:
 - [ ] to search available courses
-- [ ] to subscribe to a course 
-- [ ] to see the **correct answer in an open question**
+- [ ] to subscribe to a course
+- [x] to see the **correct answer in an open question**
 - [ ] to **reset his progress** in a given course
 - [ ] to see **statistics about his progress** in a course
 - [ ] to **create a course**
