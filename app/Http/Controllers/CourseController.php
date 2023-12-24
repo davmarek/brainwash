@@ -12,8 +12,9 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = \App\Models\Course::all();
-        return view('course.index', ['courses' => $courses]);
+        return view('course.index', [
+            'courses' => Course::with('creator')->simplePaginate(10)
+        ]);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Answer;
 use App\Models\Course;
 use App\Models\Question;
+use App\Models\User;
 use App\Models\UserResult;
 use Database\Factories\AnswerFactory;
 use Illuminate\Database\Seeder;
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
 
         $courses = Course::factory()
             ->count(2)
+            ->for(User::factory(), 'creator')
             ->has(
                 Question::factory()
                     ->count(3)
@@ -40,27 +42,39 @@ class DatabaseSeeder extends Seeder
                     ->count(2)
             )
             ->sequence(
-                ['title' => 'Elektro'],
-                ['title' => 'Webovky'],
+                [
+                    'name' => 'Analogová a číslicová technika',
+                    'description' => 'AP5AL Elektro',
+
+                ],
+                [
+                    'name' => 'Pokročilé webové stránky',
+                    'description' => 'AP5PW',
+                ],
             )
             ->create();
 
+        Course::factory()->count(20)->create();
 
-        $user_david = \App\Models\User::factory()
+
+        $user_david = User::factory()
             ->hasAttached($courses, relationship: 'subscribedCourses')
+            ->hasAttached($courses, relationship: 'editableCourses')
             ->create([
                 'name' => 'David Marek',
                 'email' => 'davidmarek14@gmail.com',
                 'password' => Hash::make('ahoj1234'),
             ]);
 
-        $user_petr = \App\Models\User::factory()
-            ->hasAttached($courses, relationship: 'subscribedCourses')
+        User::factory()
             ->create([
                 'name' => 'Petr Nosek',
                 'email' => 'petrkes@gmail.com',
                 'password' => Hash::make('ahoj1234'),
             ]);
+
+        User::factory()->count(20)->create();
+
 
         UserResult::factory()->create([
             'user_id' => $user_david->id,
@@ -76,10 +90,6 @@ class DatabaseSeeder extends Seeder
             'selected_answer_id' => $courses[0]->questions()->find(2)->answers()->first()->id,
             'is_correct' => $courses[0]->questions()->find(2)->answers()->first()->is_correct,
         ]);
-
-
-
-
 
 
     }

@@ -20,6 +20,7 @@ class QuestionFactory extends Factory
         return [
             'question_text' => fake('cs_CZ')->realText(100),
             'is_open_question' => false,
+            'open_answer' => null,
         ];
     }
 
@@ -28,6 +29,7 @@ class QuestionFactory extends Factory
         return $this->state(function (array $attributes){
             return [
                 'is_open_question' => true,
+                'open_answer' => fake()->sentence()
             ];
         });
     }

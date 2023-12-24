@@ -20,7 +20,15 @@ class Course extends Model
 
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function editors(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(User::class,'editors')
+            ->withPivot('can_add_editors')
+            ->withTimestamps();
     }
 
     public function subscribedUsers(): BelongsToMany

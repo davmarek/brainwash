@@ -58,6 +58,14 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function editableCourses(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Course::class, 'editors')
+            ->withPivot('can_add_editors')
+            ->withTimestamps();
+    }
+
     public function results(): HasMany
     {
         return $this->hasMany(UserResult::class);

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text("question_text");
             $table->boolean("is_open_question")->default(false);
+            $table->text("open_answer")->nullable();
             $table->foreignId('course_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
