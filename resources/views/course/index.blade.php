@@ -12,7 +12,7 @@
                     :name="$course->name"
                     :href="route('courses.show', $course)"
                     :description="$course->description"
-                    :creator="$course->creator->name"
+                    :creator="$course->creator"
                 />
             @endforeach
             <div class="px-4 sm:px-0">

@@ -43,13 +43,13 @@ class DatabaseSeeder extends Seeder
             )
             ->sequence(
                 [
-                    'name' => 'Analogová a číslicová technika',
-                    'description' => 'AP5AL Elektro',
+                    'name' => 'AP5AL',
+                    'description' => 'Analogová a číslicová technika - bylo to peklíčko',
 
                 ],
                 [
-                    'name' => 'Pokročilé webové stránky',
-                    'description' => 'AP5PW',
+                    'name' => 'AP5PW',
+                    'description' => 'Pokročilé webové stránky - more like .NET hell',
                 ],
             )
             ->create();

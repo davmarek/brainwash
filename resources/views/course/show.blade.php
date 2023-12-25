@@ -1,8 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ $course->name }}
-        </h1>
+        <div class="flex justify-between">
+
+            <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ $course->name }}
+            </h1>
+
+            <div class="flex gap-1">
+                <a href="{{ route('course.quiz', $course) }}">
+                    <x-primary-button type="button">
+                        {{ __('Start quiz') }}
+                    </x-primary-button>
+                </a>
+                <livewire:course-subscribe-button :course="$course"/>
+            </div>
+
+        </div>
     </x-slot>
 
     <x-app-container>
@@ -13,9 +26,9 @@
                 </div>
 
 
-                @isset($preview_questions)
+                @if(!$preview_questions->isEmpty())
                     <div>
-                        <h3>{{ __("Includes questions like...") }}</h3>
+                        <p>{{ __("Includes questions like:") }}</p>
                         <ul class="list-disc">
                             @foreach($preview_questions as $question)
                                 <li class="ml-6">
@@ -26,15 +39,15 @@
                         <div class="mt-4">
                             <a href="{{ route('course.quiz', $course) }}">
                                 <x-primary-button type="button">
-                                    Start quiz
+                                    {{ __('Start quiz') }}
                                 </x-primary-button>
                             </a>
                         </div>
                     </div>
 
                 @else
-                    No questions in this course
-                @endisset
+                    {{ __('There are no questions in this course') }}
+                @endif
             </div>
         </x-container-section>
     </x-app-container>
