@@ -12,13 +12,17 @@ class Question extends Model
 {
     use HasFactory;
 
+    // override for the open_answer property (just in case)
     public function openAnswer(): Attribute
     {
         return Attribute::make(
-            get: fn(string $value, array $attributes) => $attributes['is_open_question'] ? $value : '',
+            get: fn(?string $value, array $attributes) => $attributes['is_open_question'] ? $value : '',
         );
     }
 
+    /**
+     * Relationships
+     */
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);

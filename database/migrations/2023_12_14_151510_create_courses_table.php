@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
         });

@@ -48,11 +48,13 @@ class User extends Authenticatable
 
     public function createdCourses(): HasMany
     {
+        // One-Many
         return $this->hasMany(Course::class);
     }
 
     public function subscribedCourses(): BelongsToMany
     {
+        // Many-Many relationship
         return $this
             ->belongsToMany(Course::class, 'subscriptions')
             ->withTimestamps();
@@ -60,6 +62,7 @@ class User extends Authenticatable
 
     public function editableCourses(): BelongsToMany
     {
+        // Many-Many relationship
         return $this
             ->belongsToMany(Course::class, 'editors')
             ->withPivot('can_add_editors')
@@ -68,6 +71,7 @@ class User extends Authenticatable
 
     public function results(): HasMany
     {
+        // One-Many
         return $this->hasMany(UserResult::class);
     }
 }

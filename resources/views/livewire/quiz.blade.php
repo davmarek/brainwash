@@ -1,4 +1,5 @@
 @use('App\Enums\QuizState')
+
 <x-slot name="header" class="">
     <div class="flex gap-2 items-center">
         <a href="{{ route('courses.show', $course) }}">
@@ -16,7 +17,7 @@
         @if($questions->isEmpty())
             {{-- user doesn't have any more unanswered questions --}}
             <div>
-                No more questions for you my babe
+                There are no questions you can solve
             </div>
 
         @else

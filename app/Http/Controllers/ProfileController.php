@@ -20,6 +20,7 @@ class ProfileController extends Controller
         $user ??= $request->user();
 
         $user->load('createdCourses');
+
         if ($request->user()->is($user)) {
             $user->load(['editableCourses', 'subscribedCourses']);
         }

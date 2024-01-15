@@ -12,6 +12,12 @@ class Course extends Model
 {
     use HasFactory;
 
+    protected $fillable=[
+        'name',
+        'description',
+        'user_id',
+    ];
+
     public function questions(): HasMany
     {
         return $this->hasMany(Question::class);

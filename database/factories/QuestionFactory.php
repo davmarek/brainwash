@@ -18,7 +18,7 @@ class QuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            'question_text' => fake('cs_CZ')->realText(100),
+            'question_text' => fake('cs_CZ')->sentence(),
             'is_open_question' => false,
             'open_answer' => null,
         ];

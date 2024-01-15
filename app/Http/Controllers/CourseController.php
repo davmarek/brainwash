@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Course\CourseStoreRequest;
+use App\Http\Requests\Course\CourseUpdateRequest;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
@@ -12,8 +14,9 @@ class CourseController extends Controller
      */
     public function index()
     {
+
         return view('course.index', [
-            'courses' => Course::with('creator')->simplePaginate(10)
+            'courses' => Course::latest()->orderBy('id', 'desc')->with('creator')->simplePaginate(10)
         ]);
     }
 
@@ -22,15 +25,19 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('course.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CourseStoreRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $request->user()->createdCourses()->create($validated);
+
+        return redirect(route('profile.show'));
     }
 
     /**
@@ -48,17 +55,23 @@ class CourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Course $course)
+    public function edit(Request $request, Course $course)
     {
-        //
+        if ($request->user()->cannot('update', $course)) {
+            abort(403);
+        }
+
+        return view('course.edit', ['course' => $course]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
+    public function update(CourseUpdateRequest $request, Course $course)
     {
-        //
+        $validated = $request->validated();
+        $course->update($validated);
+        return redirect(route('courses.show', $course));
     }
 
     /**

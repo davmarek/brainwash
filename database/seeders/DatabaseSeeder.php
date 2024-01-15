@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        Course::factory()->count(20)->create();
 
-        $courses = Course::factory()
-            ->count(2)
+        $course = Course::factory()
             ->for(User::factory(), 'creator')
             ->has(
                 Question::factory()
@@ -41,25 +41,15 @@ class DatabaseSeeder extends Seeder
                     ->is_open_question()
                     ->count(2)
             )
-            ->sequence(
-                [
-                    'name' => 'AP5AL',
-                    'description' => 'Analogová a číslicová technika - bylo to peklíčko',
-
-                ],
-                [
-                    'name' => 'AP5PW',
-                    'description' => 'Pokročilé webové stránky - more like .NET hell',
-                ],
-            )
-            ->create();
-
-        Course::factory()->count(20)->create();
+            ->create([
+                'name' => 'AP5PW',
+                'description' => 'Pokročilé webové stránky - more like .NET hell',
+            ]);
 
 
         $user_david = User::factory()
-            ->hasAttached($courses, relationship: 'subscribedCourses')
-            ->hasAttached($courses, relationship: 'editableCourses')
+            ->hasAttached($course, relationship: 'subscribedCourses')
+            ->hasAttached($course, relationship: 'editableCourses')
             ->create([
                 'name' => 'David Marek',
                 'email' => 'davidmarek14@gmail.com',
@@ -78,17 +68,17 @@ class DatabaseSeeder extends Seeder
 
         UserResult::factory()->create([
             'user_id' => $user_david->id,
-            'course_id' => $courses[0]->id,
-            'question_id' => $courses[0]->questions()->find(1)->id,
-            'selected_answer_id' => $courses[0]->questions()->find(1)->answers()->first()->id,
-            'is_correct' => $courses[0]->questions()->find(1)->answers()->first()->is_correct,
+            'course_id' => $course->id,
+            'question_id' => $course->questions()->find(1)->id,
+            'selected_answer_id' => $course->questions()->find(1)->answers()->first()->id,
+            'is_correct' => $course->questions()->find(1)->answers()->first()->is_correct,
         ]);
         UserResult::factory()->create([
             'user_id' => $user_david->id,
-            'course_id' => $courses[0]->id,
-            'question_id' => $courses[0]->questions()->find(2)->id,
-            'selected_answer_id' => $courses[0]->questions()->find(2)->answers()->first()->id,
-            'is_correct' => $courses[0]->questions()->find(2)->answers()->first()->is_correct,
+            'course_id' => $course->id,
+            'question_id' => $course->questions()->find(2)->id,
+            'selected_answer_id' => $course->questions()->find(2)->answers()->first()->id,
+            'is_correct' => $course->questions()->find(2)->answers()->first()->is_correct,
         ]);
 
 

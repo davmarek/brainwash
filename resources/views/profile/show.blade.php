@@ -4,12 +4,19 @@ $youAreHim = $user->is(auth()->user());
 
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <x-header-heading>
             {{ $user->name }}
-        </h1>
+        </x-header-heading>
     </x-slot>
 
-    <x-app-container>
+    <x-app-container class="max-w-4xl">
+        @if($youAreHim)
+            <div>
+                <a href="{{ route('courses.create') }}">
+                    <x-primary-button type="button">Create course</x-primary-button>
+                </a>
+            </div>
+        @endif
         <x-container-section>
             <h3 class="font-bold text-xl">
                 {{ $youAreHim ? 'Your courses' : 'Created courses'}}

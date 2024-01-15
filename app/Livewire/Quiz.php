@@ -24,12 +24,13 @@ class Quiz extends Component
     #[Locked]
     public Collection $questions;
 
-    public int|null $selectedAnswerId = null;
-
-    public string $openAnswer = '';
-
     #[Locked]
     public QuizState $state = QuizState::Answering;
+    // finite state machine ;)
+
+    public int|null $selectedAnswerId = null;
+    public string $openAnswer = '';
+
 
     #[Computed]
     public function currentQuestion(): Question|null
@@ -37,11 +38,15 @@ class Quiz extends Component
         return Question::with('answers')->find($this->questions->first());
     }
 
+    /**
+     * What happens when the page is loaded
+     */
     public function mount(Course $course): void
     {
+        // set the course variable to the course from the url
         $this->course = $course;
 
-        // get all the question ids, that the current user didn't answer yet
+        // get all the question ids, that the current user hasn't answered yet
         $this->questions = $course
             ->questions()
             ->whereDoesntHave('results', function (Builder $query) {
@@ -54,6 +59,7 @@ class Quiz extends Component
     }
 
 
+    /** User clicked one of the answers */
     public function selectAnswer(int|null $answerId): void
     {
         // don't allow changing selected answer after submitting
@@ -67,20 +73,21 @@ class Quiz extends Component
         }
     }
 
+    /** User submitted his answer (open or closed)  */
     public function submit(): void
     {
         if ($this->currentQuestion->is_open_question) {
             // open (text) question
             $this->validateOnly('openAnswer',
                 ['openAnswer' => 'required'],
-                ['openAnswer.required' => "Yo, fill the answer, you cunt"]
+                ['openAnswer.required' => "Please fill the answer before submitting"]
             );
             $this->state = QuizState::SelfReview;
         } else {
             // closed options question
             $this->validateOnly( 'selectedAnswerId',
                 ['selectedAnswerId' => 'required'],
-                ['selectedAnswerId.required' => "Yo, select an answer, you cunt"]
+                ['selectedAnswerId.required' => "Please select an answer before submitting"]
             );
 
             /** @var Answer $answer */
@@ -107,6 +114,7 @@ class Quiz extends Component
         }
     }
 
+    /** User reviewed his answer (compared his answer to the correct one) */
     public function selfReview(bool $correct): void
     {
         UserResult::updateOrCreate(

@@ -26,24 +26,17 @@ class CourseSubscribeButton extends Component
 
     public function submit(): void
     {
-        $user =Auth::user();
+        $user = Auth::user();
         if ($this->isSubscribed) {
-            //dd('was subbed');
             $user->subscribedCourses()->detach($this->course->id);
         } else {
-            //dd('was not subbed');
             $user->subscribedCourses()->attach($this->course->id);
         }
         $user->save();
         unset($this->isSubscribed);
     }
 
-    public function unsubscribe()
-    {
-
-    }
-
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.course-subscribe-button');
     }

@@ -6,7 +6,7 @@
     </x-slot>
 
     <x-app-container class="max-w-2xl">
-        @isset($courses)
+        @isset($course)
             @foreach($courses as $course)
                 <x-course.card
                     :name="$course->name"
@@ -19,7 +19,7 @@
                 {{ $courses->links() }}
             </div>
         @else
-            No courses
+            No course loaded
         @endisset
 
 

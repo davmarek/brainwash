@@ -25,13 +25,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('/courses', CourseController::class)->only(['index', 'show']);
-    Route::get('/courses/{course}/quiz', \App\Livewire\Quiz::class)->name('course.quiz');
+    Route::resource('/courses', CourseController::class);
+    Route::get('/courses/{course}/quiz', \App\Livewire\Quiz::class)->name('courses.quiz');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile/{user?}', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/manage', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/{user?}', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
