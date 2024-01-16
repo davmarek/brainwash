@@ -15,7 +15,7 @@ class UserResult extends Model
         'course_id',
         'question_id',
         'selected_answer_id',
-        'is_correct'
+        'is_correct',
     ];
 
     public function user(): BelongsTo

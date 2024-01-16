@@ -22,9 +22,9 @@ class AnswerFactory extends Factory
         ];
     }
 
-    public function is_correct() : Factory
+    public function is_correct(): Factory
     {
-        return $this->state(function (array $attributes){
+        return $this->state(function (array $attributes) {
             return [
                 'is_correct' => true,
                 'answer_text' => 'Correct answer',

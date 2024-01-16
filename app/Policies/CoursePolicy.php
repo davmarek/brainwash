@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Course;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class CoursePolicy
 {
@@ -31,13 +30,11 @@ class CoursePolicy
     /**
      * Determine whether the user can create models.
      */
-
     public function create(User $user): bool
     {
         // TODO: Maybe in the future, implement approved users so that somebody that just registered cannot do much
         return true;
     }
-
 
     /**
      * Determine whether the user can update the model.
@@ -50,12 +47,10 @@ class CoursePolicy
     /**
      * Determine whether the user can delete the model.
      */
-
     public function delete(User $user, Course $course): bool
     {
         return $course->creator->is($user);
     }
-
 
     /**
      * Determine whether the user can restore the model.

@@ -10,9 +10,9 @@
             <div class="flex gap-2">
 
                 <a href="{{ route('courses.show', $course) }}">
-                    <x-secondary-button type="button">
-                        {{ __('Cancel') }}
-                    </x-secondary-button>
+                    <x-primary-button type="button">
+                        {{ __('Edit questions') }}
+                    </x-primary-button>
                 </a>
 
                 @can('delete', $course)
@@ -21,6 +21,12 @@
                         x-on:click.prevent="$dispatch('open-modal', 'confirm-course-deletion')"
                     >{{ __('Delete Course') }}</x-danger-button>
                 @endcan
+
+                <a href="{{ route('courses.show', $course) }}">
+                    <x-secondary-button type="button">
+                        {{ __('Cancel') }}
+                    </x-secondary-button>
+                </a>
             </div>
 
         </div>

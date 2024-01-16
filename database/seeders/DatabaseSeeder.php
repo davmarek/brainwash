@@ -8,7 +8,6 @@ use App\Models\Course;
 use App\Models\Question;
 use App\Models\User;
 use App\Models\UserResult;
-use Database\Factories\AnswerFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,33 +18,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         Course::factory()->count(20)->create();
 
         $course = Course::factory()
             ->for(User::factory(), 'creator')
             ->has(
                 Question::factory()
-                    ->count(3)
+                    ->count(5)
                     ->has(Answer::factory()->is_correct())
                     ->has(Answer::factory()->count(2)),
             )
             ->has(
                 Question::factory()
                     ->is_open_question()
-                    ->count(2)
+                    ->count(20)
             )
             ->create([
                 'name' => 'AP5PW',
                 'description' => 'Pokročilé webové stránky - more like .NET hell',
             ]);
-
 
         $user_david = User::factory()
             ->hasAttached($course, relationship: 'subscribedCourses')
@@ -65,7 +56,6 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->count(20)->create();
 
-
         UserResult::factory()->create([
             'user_id' => $user_david->id,
             'course_id' => $course->id,
@@ -80,7 +70,6 @@ class DatabaseSeeder extends Seeder
             'selected_answer_id' => $course->questions()->find(2)->answers()->first()->id,
             'is_correct' => $course->questions()->find(2)->answers()->first()->is_correct,
         ]);
-
 
     }
 }

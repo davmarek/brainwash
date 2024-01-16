@@ -45,7 +45,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
     public function createdCourses(): HasMany
     {
         // One-Many

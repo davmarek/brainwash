@@ -6,17 +6,16 @@ use App\Models\Course;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
-class QuestionController extends Controller
+class CourseQuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Course $course)
     {
-        $course->load('questions');
-
-        return view('', [
-            'course'=> $course,
+        return view('question.index', [
+            'course' => $course,
+            'questions' => $course->questions()->with('answers')->paginate(10),
         ]);
     }
 

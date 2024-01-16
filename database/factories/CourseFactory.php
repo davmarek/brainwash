@@ -20,7 +20,7 @@ class CourseFactory extends Factory
         return [
             'name' => fake()->name(),
             'description' => fake()->sentence(),
-            'user_id' => User::factory()
+            'user_id' => User::factory(),
         ];
     }
 }

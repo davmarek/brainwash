@@ -16,7 +16,7 @@ class CourseController extends Controller
     {
 
         return view('course.index', [
-            'courses' => Course::latest()->orderBy('id', 'desc')->with('creator')->simplePaginate(10)
+            'courses' => Course::latest()->orderBy('id', 'desc')->with('creator')->simplePaginate(10),
         ]);
     }
 
@@ -46,6 +46,7 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         $preview_questions = $course->questions()->take(5)->get();
+
         return view('course.show', [
             'course' => $course,
             'preview_questions' => $preview_questions,
@@ -69,16 +70,27 @@ class CourseController extends Controller
      */
     public function update(CourseUpdateRequest $request, Course $course)
     {
+        if ($request->user()->cannot('update', $course)) {
+            abort(403);
+        }
+
         $validated = $request->validated();
         $course->update($validated);
+
         return redirect(route('courses.show', $course));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy(Request $request, Course $course)
     {
-        //
+        if ($request->user()->cannot('delete', $course)) {
+            abort(403);
+        }
+
+        $course->delete();
+
+        return redirect(route('profile.show'));
     }
 }

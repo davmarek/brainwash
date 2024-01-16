@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Course;
-use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -22,7 +21,6 @@ class CourseSubscribeButton extends Component
     {
         return $this->course->subscribedUsers()->where('user_id', Auth::user()->id)->exists();
     }
-
 
     public function submit(): void
     {

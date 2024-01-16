@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'description',
         'user_id',
@@ -23,7 +25,6 @@ class Course extends Model
         return $this->hasMany(Question::class);
     }
 
-
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -32,7 +33,7 @@ class Course extends Model
     public function editors(): BelongsToMany
     {
         return $this
-            ->belongsToMany(User::class,'editors')
+            ->belongsToMany(User::class, 'editors')
             ->withPivot('can_add_editors')
             ->withTimestamps();
     }
