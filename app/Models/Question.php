@@ -14,6 +14,10 @@ class Question extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $casts = [
+        'is_open_question' => 'boolean',
+    ];
+
     // override for the open_answer property (just in case)
     public function openAnswer(): Attribute
     {

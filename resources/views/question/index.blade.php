@@ -13,6 +13,7 @@
             @foreach($questions as $question)
                 <x-question.card
                     :question="$question"
+                    :can-update="auth()->user()->can('update', $course)"
                 />
             @endforeach
             <div class="px-4 sm:px-0">

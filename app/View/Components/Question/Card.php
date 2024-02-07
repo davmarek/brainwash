@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Question;
 
 use App\Models\Question;
 use Closure;
@@ -13,7 +13,8 @@ class Card extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public Question $question
+        public Question $question,
+        public bool $canUpdate = false
     ) {
 
     }

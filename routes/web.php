@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CourseQuestionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,9 +28,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/courses', CourseController::class);
     Route::get('/courses/{course}/quiz', \App\Livewire\Quiz::class)->name('courses.quiz');
 
-    Route::group(['prefix' => 'courses/{course}', 'middleware' => 'can:update,course'], function () {
-        Route::resource('questions', CourseQuestionController::class);
-    });
+    Route::resource('courses.questions', QuestionController::class)
+        ->only(['index', 'show']);
+
+    Route::resource('questions', QuestionController::class)
+        ->except(['index', 'show'])
+        ->shallow();
+
 });
 
 Route::middleware('auth')->group(function () {

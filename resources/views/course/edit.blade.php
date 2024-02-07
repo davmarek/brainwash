@@ -8,13 +8,6 @@
             </x-header-heading>
 
             <div class="flex gap-2">
-
-                <a href="{{ route('courses.show', $course) }}">
-                    <x-primary-button type="button">
-                        {{ __('Edit questions') }}
-                    </x-primary-button>
-                </a>
-
                 @can('delete', $course)
                     <x-danger-button
                         x-data=""
@@ -45,7 +38,6 @@
                                   name="name"
                                   :value="old('name', $course->name)"
                                   required
-                                  x-model="courseName"
 
                     />
                     <x-input-error :messages="$errors->get('name')" class="mt-2"/>
@@ -64,7 +56,7 @@
 
                 <div class="mt-4">
                     <x-primary-button>
-                        {{ __('Update') }}
+                        {{ __('Save') }}
                     </x-primary-button>
                 </div>
             </form>

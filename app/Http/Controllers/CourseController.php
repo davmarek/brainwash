@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Course\CourseStoreRequest;
 use App\Http\Requests\Course\CourseUpdateRequest;
 use App\Models\Course;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -31,7 +32,7 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CourseStoreRequest $request)
+    public function store(CourseStoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -68,7 +69,7 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CourseUpdateRequest $request, Course $course)
+    public function update(CourseUpdateRequest $request, Course $course): RedirectResponse
     {
         if ($request->user()->cannot('update', $course)) {
             abort(403);
@@ -83,8 +84,9 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Course $course)
+    public function destroy(Request $request, Course $course): RedirectResponse
     {
+        // TODO: check implementation of confirmation modal before deleting course
         if ($request->user()->cannot('delete', $course)) {
             abort(403);
         }

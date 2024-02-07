@@ -42,11 +42,16 @@
                                     </li>
                                 @endforeach
                             </ul>
-                            <div class="mt-4">
+                            <div class="mt-4 flex gap-4">
                                 <a href="{{ route('courses.quiz', $course) }}">
                                     <x-primary-button type="button">
                                         {{ __('Start quiz') }}
                                     </x-primary-button>
+                                </a>
+                                <a href="{{ route('courses.questions.index', $course) }}">
+                                    <x-secondary-button type="button">
+                                        {{ __('Study questions') }}
+                                    </x-secondary-button>
                                 </a>
                             </div>
                         </div>
