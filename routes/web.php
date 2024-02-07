@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +20,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -27,6 +27,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('/courses', CourseController::class);
     Route::get('/courses/{course}/quiz', \App\Livewire\Quiz::class)->name('courses.quiz');
+
+    Route::resource('courses.questions', QuestionController::class)
+        ->only(['index', 'show']);
+
+    Route::resource('questions', QuestionController::class)
+        ->except(['index', 'show'])
+        ->shallow();
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -36,4 +44,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

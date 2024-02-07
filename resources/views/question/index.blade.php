@@ -1,22 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
         <x-header-heading>
-            {{ __('Courses') }}
+            <x-slot:sup>
+                Questions
+            </x-slot:sup>
+            {{ $course->name }}
         </x-header-heading>
     </x-slot>
 
     <x-app-container class="max-w-2xl">
-        @isset($course)
-            @foreach($courses as $course)
-                <x-course.card
-                    :name="$course->name"
-                    :href="route('courses.show', $course)"
-                    :description="$course->description"
-                    :creator="$course->creator"
+        @isset($questions)
+            @foreach($questions as $question)
+                <x-question.card
+                    :question="$question"
+                    :can-update="auth()->user()->can('update', $course)"
                 />
             @endforeach
             <div class="px-4 sm:px-0">
-                {{ $courses->links() }}
+                {{ $questions->links() }}
             </div>
         @else
             No course loaded

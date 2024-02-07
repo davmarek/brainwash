@@ -17,7 +17,6 @@ use Livewire\Component;
 #[Layout('layouts.quiz')]
 class Quiz extends Component
 {
-
     #[Locked]
     public Course $course;
 
@@ -28,12 +27,12 @@ class Quiz extends Component
     public QuizState $state = QuizState::Answering;
     // finite state machine ;)
 
-    public int|null $selectedAnswerId = null;
+    public ?int $selectedAnswerId = null;
+
     public string $openAnswer = '';
 
-
     #[Computed]
-    public function currentQuestion(): Question|null
+    public function currentQuestion(): ?Question
     {
         return Question::with('answers')->find($this->questions->first());
     }
@@ -54,13 +53,12 @@ class Quiz extends Component
             })
             ->select('id')
             ->get()
-            ->map(fn($item) => $item['id'])
+            ->map(fn ($item) => $item['id'])
             ->collect();
     }
 
-
     /** User clicked one of the answers */
-    public function selectAnswer(int|null $answerId): void
+    public function selectAnswer(?int $answerId): void
     {
         // don't allow changing selected answer after submitting
         if ($this->state == QuizState::ShowingResults) {
@@ -80,22 +78,22 @@ class Quiz extends Component
             // open (text) question
             $this->validateOnly('openAnswer',
                 ['openAnswer' => 'required'],
-                ['openAnswer.required' => "Please fill the answer before submitting"]
+                ['openAnswer.required' => 'Please fill the answer before submitting']
             );
             $this->state = QuizState::SelfReview;
         } else {
             // closed options question
-            $this->validateOnly( 'selectedAnswerId',
+            $this->validateOnly('selectedAnswerId',
                 ['selectedAnswerId' => 'required'],
-                ['selectedAnswerId.required' => "Please select an answer before submitting"]
+                ['selectedAnswerId.required' => 'Please select an answer before submitting']
             );
 
             /** @var Answer $answer */
             $answer = $this->currentQuestion->answers()->find($this->selectedAnswerId);
             if ($answer->is_correct) {
-                session()->flash('result', "Correct");
+                session()->flash('result', 'Correct');
             } else {
-                session()->flash('result', "Wrong");
+                session()->flash('result', 'Wrong');
             }
 
             UserResult::updateOrCreate(
@@ -144,7 +142,6 @@ class Quiz extends Component
         $this->questions->push($first);
         $this->reset('selectedAnswerId', 'openAnswer', 'state');
     }
-
 
     public function render()
     {

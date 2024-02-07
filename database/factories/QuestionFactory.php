@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use phpDocumentor\Reflection\Types\CallableParameter;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Question>
@@ -24,12 +23,12 @@ class QuestionFactory extends Factory
         ];
     }
 
-    public function is_open_question() : Factory
+    public function is_open_question(): Factory
     {
-        return $this->state(function (array $attributes){
+        return $this->state(function (array $attributes) {
             return [
                 'is_open_question' => true,
-                'open_answer' => fake()->sentence()
+                'open_answer' => fake()->sentence(),
             ];
         });
     }
